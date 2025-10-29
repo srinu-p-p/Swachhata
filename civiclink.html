@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>CivicLink — Mobile Neumorphic (Final)</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+/* ------------------------------
+   CivicLink Mobile — Neumorphic Final + Language Feature
+   Single-file HTML (mobile-first)
+   ------------------------------ */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+:root{
+  --bg: #e6eef6;
+  --card: #f7fbff;
+  --shadow-dark: rgba(163,177,199,0.34);
+  --shadow-light: rgba(255,255,255,0.92);
+  --accent: #4da3ff;
+  --accent-2: #7cc8ff;
+  --muted: #58707f;
+  --success: #2fc27b;
+  --danger: #ef5a5a;
+  --glass: rgba(255,255,255,0.85);
+}
+
+html,body { height:100%; margin:0; font-family:'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; background:var(--bg); color:#06323a; }
+
+.app-frame {
+  width:100%;
+  max-width:420px;
+  min-height:100vh;
+  margin:0 auto;
+  padding:16px 14px 96px 14px;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* Neumorphic surface helper */
+.neo {
+  background: linear-gradient(180deg, var(--card), #f2fbff);
+  border-radius:16px;
+  box-shadow: 8px 8px 22px var(--shadow-dark), -8px -8px 22px var(--shadow-light);
+  border:1px solid rgba(255,255,255,0.7);
+}
+
+/* Splash */
+#splash {
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:9999;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(230,242,255,0.96));
+}
+.splash-card {
+  width:230px; height:230px; border-radius:28px; display:flex; align-items:center; justify-content:center; flex-direction:column;
+  background: linear-gradient(180deg,#ffffff,#eef7ff);
+  box-shadow: 20px 26px 50px rgba(10,50,100,0.08), -12px -10px 30px rgba(255,255,255,0.9);
+  border:1px solid rgba(8,64,120,0.03);
+}
+.logo-circle {
+  width:110px; height:110px; border-radius:999px; display:grid; place-items:center; font-weight:800; color:white;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: 0 10px 30px rgba(77,163,255,0.16);
+  transform: scale(.8);
+  animation: logoPop 860ms cubic-bezier(.2,.9,.3,1) forwards;
+}
+@keyframes logoPop { from { transform: scale(.6); opacity:0 } to { transform: scale(1); opacity:1 } }
+.splash-title { margin-top:12px; font-weight:700; color:#05323f; font-size:18px; opacity:0; animation: fadeIn 700ms 600ms forwards; }
+@keyframes fadeIn { to { opacity:1 } }
+
+/* Header */
+.header {
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+}
+.header .brand {
+  display:flex; flex-direction:column;
+}
+.header h1 { margin:0; font-size:18px; font-weight:700; color:#04323f; }
+.header .tag { margin-top:3px; font-size:12px; color:var(--muted); }
+
+/* Hero / dashboard cards */
+.dashboard {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:10px;
+}
+.card {
+  padding:12px; border-radius:14px; min-height:86px; cursor:pointer; display:flex; flex-direction:column; justify-content:space-between;
+  color:#04323f; transition: transform .12s ease, box-shadow .12s ease;
+  background: linear-gradient(180deg,#fff,#f7fcff);
+  box-shadow: 6px 6px 18px rgba(163,177,199,0.08), -6px -6px 18px rgba(255,255,255,0.9);
+  border:1px solid rgba(255,255,255,0.6);
+}
+.card:active { transform:translateY(3px); box-shadow:none; }
+.card .title { font-weight:700; font-size:15px; }
+.card .desc { font-size:12px; color:var(--muted); margin-top:6px; }
+.card.gradient-1 { background: linear-gradient(135deg,#e6f3ff,#dff6ff); border-left:6px solid rgba(77,163,255,0.25); }
+.card.gradient-2 { background: linear-gradient(135deg,#fff1f8,#fff5fb); border-left:6px solid rgba(255,122,182,0.18); }
+.card.gradient-3 { background: linear-gradient(135deg,#f9fff3,#f0fff2); border-left:6px solid rgba(47,194,123,0.14); }
+.card.gradient-4 { background: linear-gradient(135deg,#fffaf0,#fff7e6); border-left:6px solid rgba(249,115,22,0.12); }
+
+/* Insights rotating */
+.insights {
+  margin-top:12px; padding:12px; border-radius:12px; background:linear-gradient(180deg,#ffffff,#f6fbff); box-shadow:6px 6px 16px rgba(163,177,199,0.06);
+  display:flex; align-items:center; gap:8px;
+}
+.insight-bullet { font-size:18px; }
+.insight-text { font-size:13px; color:var(--muted); flex:1; min-height:38px; display:flex; align-items:center; }
+
+/* container for screens (slider) */
+.screen-wrapper {
+  position:relative; width:100%; overflow:hidden; min-height:320px;
+  margin-top:6px;
+}
+.screen-strip {
+  display:flex; width:700%; transition: transform 360ms cubic-bezier(.22,.98,.23,1);
+  gap:12px;
+}
+.screen {
+  width:100%; flex:0 0 100%; box-sizing:border-box;
+}
+
+/* Panel content (neo) */
+.panel {
+  padding:12px; border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(247,252,255,0.98));
+  box-shadow: 6px 6px 18px rgba(163,177,199,0.06), -6px -6px 18px rgba(255,255,255,0.9);
+  border:1px solid rgba(255,255,255,0.6);
+}
+
+/* Report UI */
+label { display:block; font-weight:600; margin-bottom:6px; color:#064050; font-size:13px; }
+input[type="text"], textarea, select {
+  width:100%; padding:10px 12px; border-radius:12px; border:none; outline:none; font-size:14px; color:#05323f;
+  background: linear-gradient(180deg,#fff,#f6fbff); box-shadow: inset 4px 4px 8px rgba(163,177,199,0.06), inset -4px -4px 8px rgba(255,255,255,0.9);
+}
+textarea { min-height:86px; resize:vertical; }
+
+/* Drop area */
+.drop-area {
+  margin-top:8px; padding:12px; border-radius:12px; display:flex; gap:10px; align-items:center;
+  background: linear-gradient(180deg,#ffffff,#f6fbff); border:1px dashed rgba(77,163,255,0.10);
+  box-shadow: 6px 6px 18px rgba(163,177,199,0.04), -6px -6px 18px rgba(255,255,255,0.9);
+}
+.drop-area.drag { border-color: rgba(77,163,255,0.28); transform:translateY(-4px); }
+
+/* preview */
+.preview { margin-top:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.preview img, .preview video { width:120px; height:80px; object-fit:cover; border-radius:10px; border:1px solid rgba(8,64,120,0.03); }
+
+/* recorder */
+.rec-controls { display:flex; gap:8px; align-items:center; margin-top:8px; }
+.rec-start {
+  background: linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; padding:10px 14px; border-radius:12px; border:none; font-weight:800; cursor:pointer;
+  box-shadow: 0 10px 30px rgba(77,163,255,0.12);
+}
+.rec-stop { background:#ef5a5a; color:white; padding:10px 12px; border-radius:12px; border:none; font-weight:700; cursor:pointer; }
+.rec-status { font-size:13px; color:var(--muted); margin-left:6px; }
+
+/* location & submit */
+.controls { display:flex; gap:8px; align-items:center; margin-top:10px; }
+.secondary-btn { padding:10px 12px; border-radius:12px; border:none; background:linear-gradient(180deg,#fff,#f6fbff); box-shadow:6px 6px 18px rgba(163,177,199,0.06); cursor:pointer; }
+.submit-btn { flex:1; background: linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; padding:12px; border-radius:12px; border:none; font-weight:800; cursor:pointer; box-shadow: 0 12px 36px rgba(77,163,255,0.12); }
+
+/* reports list */
+.reports-list { display:flex; flex-direction:column; gap:10px; margin-top:10px; }
+.report-item {
+  padding:10px; border-radius:12px; background:linear-gradient(180deg,#fff,#f6fbff); display:flex; justify-content:space-between; gap:8px;
+  box-shadow: 6px 6px 18px rgba(163,177,199,0.04);
+}
+.report-left { flex:1; }
+.report-right { display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
+
+/* ministers grid */
+.min-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:10px; }
+.minister-card { padding:10px; border-radius:12px; background:linear-gradient(180deg,#fff,#f6fbff); display:flex; gap:10px; align-items:center; box-shadow:6px 6px 18px rgba(163,177,199,0.04); }
+.min-icon { width:44px; height:44px; border-radius:10px; display:grid; place-items:center; color:white; font-weight:700; background:linear-gradient(135deg,var(--accent),var(--accent-2)); }
+
+/* rewards */
+.rewards-row { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:10px; }
+
+/* profile panel */
+.profile-actions { display:flex; gap:8px; margin-top:10px; }
+
+/* language selection (new) */
+.lang-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:12px; }
+.lang-card { padding:12px; border-radius:12px; background:linear-gradient(180deg,#fff,#f6fbff); display:flex; gap:10px; align-items:center; justify-content:center; cursor:pointer; box-shadow: 6px 6px 18px rgba(163,177,199,0.04); font-weight:700; }
+.lang-card.selected { box-shadow: 0 12px 36px rgba(77,163,255,0.12); border:1px solid rgba(77,163,255,0.12); }
+
+/* language interface screen */
+.lang-interface {
+  display:flex; flex-direction:column; gap:12px;
+}
+.lang-banner { padding:14px; border-radius:12px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; font-weight:800; text-align:center; }
+
+/* success toast */
+.toast {
+  position:fixed; left:50%; transform:translateX(-50%); bottom:92px; z-index:999; display:flex; align-items:center; gap:10px;
+  padding:12px 16px; border-radius:12px; background: linear-gradient(180deg,#f7fff6,#eefff0); box-shadow:0 12px 40px rgba(10,40,20,0.06); border:1px solid rgba(10,160,80,0.06);
+  opacity:0; pointer-events:none; transition:opacity .22s;
+}
+.toast.show { opacity:1; pointer-events:auto; }
+
+/* bottom nav */
+.bottom-nav {
+  position:fixed; left:50%; transform:translateX(-50%); bottom:18px; width:calc(100% - 36px); max-width:420px;
+  display:flex; justify-content:space-between; gap:8px; padding:10px; border-radius:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(245,252,255,0.98));
+  box-shadow: 8px 18px 40px rgba(10,40,80,0.06), -6px -6px 18px rgba(255,255,255,0.9);
+  border:1px solid rgba(8,64,120,0.03);
+  z-index:999;
+}
+.nav-item {
+  flex:1; text-align:center; padding:8px; border-radius:12px; font-weight:700; font-size:12px; color:var(--muted);
+  cursor:pointer; user-select:none; transition:all .12s;
+}
+.nav-item.active { color:white; background: linear-gradient(90deg,var(--accent),var(--accent-2)); box-shadow: 0 12px 30px rgba(77,163,255,0.14); }
+
+/* small utilities */
+.muted { color:var(--muted); font-size:13px; }
+.tiny { font-size:12px; color:var(--muted); }
+.center { text-align:center; }
+
+.lang-back { padding:8px 12px; border-radius:12px; background:linear-gradient(180deg,#fff,#f6fbff); box-shadow:6px 6px 18px rgba(163,177,199,0.06); cursor:pointer; border:none; }
+
+@media (min-width:640px){ .app-frame { padding:22px 28px 120px 28px; } .splash-card{ width:260px;height:260px;} }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash" aria-hidden="true">
+  <div class="splash-card">
+    <div class="logo-circle" aria-hidden>
+      <div style="font-size:44px; font-weight:800; letter-spacing:-2px;">C</div>
+    </div>
+    <div class="splash-title">CivicLink</div>
+  </div>
+</div>
+
+<!-- APP FRAME -->
+<div class="app-frame" id="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand">
+      <h1 id="brandTitle" style="margin:0;">CivicLink</h1>
+      <div class="tag tiny muted" id="brandTag">Your City, Your Voice</div>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <div id="pointsTop" class="tiny">120 pts</div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD TOP (cards + insights) -->
+  <div class="neo panel" style="padding:12px;">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <div style="font-size:14px; font-weight:700;">Dashboard</div>
+        <div class="tiny muted" style="margin-top:4px;">Quick actions & civic insights</div>
+      </div>
+      <div style="font-weight:700; color:var(--accent);">CL</div>
+    </div>
+
+    <div class="dashboard" style="margin-top:12px;">
+      <div class="card gradient-1" id="card-report" role="button" tabindex="0" aria-label="Report Issue card">
+        <div class="title">📝 Report an Issue</div>
+        <div class="desc">Spot a problem? Upload photo + location instantly.</div>
+      </div>
+
+      <div class="card gradient-2" id="card-myreports" role="button" tabindex="0" aria-label="My Reports card">
+        <div class="title">🗂 My Reports</div>
+        <div class="desc">Track progress & municipal responses.</div>
+      </div>
+
+      <div class="card gradient-3" id="card-feed" role="button" tabindex="0" aria-label="Community Feed card">
+        <div class="title">👥 Community Feed</div>
+        <div class="desc">See trending issues near you (demo feed).</div>
+      </div>
+
+      <div class="card gradient-4" id="card-ministers" role="button" tabindex="0" aria-label="Ministers card">
+        <div class="title">🏛 Ministers</div>
+        <div class="desc">Know department leads & contact info.</div>
+      </div>
+    </div>
+
+    <div class="insights" style="margin-top:12px;">
+      <div class="insight-bullet">💡</div>
+      <div class="insight-text" id="insightText">Loading civic insights...</div>
+      <div style="font-size:12px; color:var(--muted);">—</div>
+    </div>
+  </div>
+
+  <!-- SCREEN WRAPPER: sliding strip with screens -->
+  <div class="screen-wrapper" aria-live="polite">
+    <div class="screen-strip" id="screenStrip">
+
+      <!-- HOME SCREEN (index 0) -->
+      <div class="screen" id="scr-home">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-weight:700; font-size:16px;">Welcome back!</div>
+              <div class="tiny muted" style="margin-top:6px;">Report, track & help build better cities.</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:60px;height:60px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:white; display:grid; place-items:center; font-weight:800;">CL</div>
+              <div class="tiny muted" style="margin-top:6px; font-size:11px;">Mobile App</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <div class="tiny muted">Community Snapshot</div>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+              <div class="neo panel" style="flex:1; padding:10px; text-align:center;">
+                <div style="font-weight:700; font-size:18px;">12,459</div>
+                <div class="tiny muted">Issues resolved</div>
+              </div>
+              <div class="neo panel" style="flex:1; padding:10px; text-align:center;">
+                <div style="font-weight:700; font-size:18px;">24 hrs</div>
+                <div class="tiny muted">Avg response</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px; display:flex; gap:8px;">
+            <div class="neo panel" style="flex:1; padding:10px;">
+              <div style="font-weight:700;">Leaderboard (Demo)</div>
+              <div class="tiny muted" style="margin-top:6px;">Top contributors in your area</div>
+              <div style="margin-top:8px;" class="tiny muted">1. Shruti K. • 240 pts</div>
+              <div class="tiny muted">2. Arjun P. • 198 pts</div>
+            </div>
+            <div class="neo panel" style="width:110px; padding:10px; text-align:center;">
+              <div style="font-weight:700; font-size:18px;" id="homePoints">120</div>
+              <div class="tiny muted">Points</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REPORT SCREEN (index 1) -->
+      <div class="screen" id="scr-report">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-weight:700; font-size:16px;">New Report</div>
+            <div class="tiny muted">Rewards: +5 pts</div>
+          </div>
+
+          <form id="reportForm" style="margin-top:10px;">
+            <div>
+              <label for="rTitle">Short title</label>
+              <input id="rTitle" type="text" placeholder="E.g. Large pothole near Main St." required />
+            </div>
+
+            <div style="margin-top:10px;">
+              <label for="rCat">Category</label>
+              <select id="rCat">
+                <option>Road Issues</option>
+                <option>Waste Management</option>
+                <option>Street Lights</option>
+                <option>Water Supply</option>
+                <option>Drainage</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div style="margin-top:10px;">
+              <label for="rDetails">Description</label>
+              <textarea id="rDetails" placeholder="Describe the issue..."></textarea>
+            </div>
+
+            <div style="margin-top:10px;">
+              <label>Upload photo / video</label>
+              <div id="dropArea" class="drop-area" title="Tap to choose file or drag here">
+                <div style="flex:1;">
+                  <div style="font-weight:700;">Tap to choose file</div>
+                  <div class="tiny muted" style="margin-top:6px;">PNG / JPG / MP4 (demo)</div>
+                </div>
+                <div style="font-size:20px;">📁</div>
+                <input id="fileInput" type="file" accept="image/*,video/*" style="display:none;">
+              </div>
+              <div id="previewArea" class="preview" style="display:none;"></div>
+            </div>
+
+            <div style="margin-top:10px;">
+              <label>Voice message</label>
+              <div class="rec-controls">
+                <button type="button" id="recStart" class="rec-start">● Record</button>
+                <button type="button" id="recStop" class="rec-stop" disabled>■ Stop</button>
+                <div id="recStatus" class="rec-status">No recording</div>
+              </div>
+              <div id="audioPreview" style="display:none; margin-top:8px;">
+                <audio id="audioPlayer" controls style="width:100%"></audio>
+                <div id="transcript" class="tiny muted" style="margin-top:6px;"></div>
+              </div>
+            </div>
+
+            <div style="margin-top:10px;">
+              <label>Location</label>
+              <div style="display:flex; gap:8px; align-items:center;">
+                <button type="button" id="locBtn" class="secondary-btn">📍 Get Location</button>
+                <div id="locDisplay" class="tiny muted">No location</div>
+              </div>
+            </div>
+
+            <div class="controls" style="margin-top:12px;">
+              <button type="button" id="resetBtn" class="secondary-btn">Reset</button>
+              <button type="submit" class="submit-btn">Submit Report</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- MY REPORTS SCREEN (index 2) -->
+      <div class="screen" id="scr-reports">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-weight:700;">My Reports</div>
+            <div class="tiny muted">Manage submissions</div>
+          </div>
+
+          <div id="reportsList" class="reports-list" style="margin-top:10px;"></div>
+          <div id="noReports" class="tiny muted center" style="margin-top:12px;">No reports yet — create your first report!</div>
+        </div>
+      </div>
+
+      <!-- REWARDS SCREEN (index 3) -->
+      <div class="screen" id="scr-rewards">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-weight:700;">Rewards</div>
+            <div class="tiny muted">Points & Achievements</div>
+          </div>
+
+          <div class="rewards-row" style="margin-top:12px;">
+            <div>
+              <div class="tiny muted">Your Points</div>
+              <div style="font-weight:800; font-size:20px;" id="pointsDisplay">120</div>
+              <div class="tiny muted">Level 3 • 120 / 200</div>
+            </div>
+            <div style="padding:12px; border-radius:12px; background:linear-gradient(180deg,#fff,#f6fbff); box-shadow:6px 6px 18px rgba(163,177,199,0.06); text-align:center;">
+              <div style="font-size:20px;">🏆</div>
+              <div class="tiny muted">Top contributor</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <div class="tiny muted">Badges</div>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+              <div style="padding:8px; border-radius:10px; background:linear-gradient(180deg,#fff,#f6fbff); box-shadow:6px 6px 18px rgba(163,177,199,0.06);">🏁 First Report</div>
+              <div style="padding:8px; border-radius:10px; background:linear-gradient(180deg,#fff,#f6fbff); box-shadow:6px 6px 18px rgba(163,177,199,0.06);">📸 Photo Contributor</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MINISTERS SCREEN (index 4) -->
+      <div class="screen" id="scr-ministers">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-weight:700;">Ministers & Officials</div>
+            <div class="tiny muted">Department leads</div>
+          </div>
+
+          <div class="min-grid">
+            <div class="minister-card"><div class="min-icon">🧹</div><div><div style="font-weight:700">Sanitation</div><div class="tiny muted">Mr. Rajesh Kumar</div></div></div>
+            <div class="minister-card"><div class="min-icon">🛣️</div><div><div style="font-weight:700">Roads & Transport</div><div class="tiny muted">Ms. Kavya Iyer</div></div></div>
+            <div class="minister-card"><div class="min-icon">💡</div><div><div style="font-weight:700">Electricity</div><div class="tiny muted">Mr. Aditya Mehta</div></div></div>
+            <div class="minister-card"><div class="min-icon">🚰</div><div><div style="font-weight:700">Water Supply</div><div class="tiny muted">Mrs. Sneha Reddy</div></div></div>
+            <div class="minister-card"><div class="min-icon">🏙️</div><div><div style="font-weight:700">Urban Development</div><div class="tiny muted">Mr. Arun Sharma</div></div></div>
+            <div class="minister-card"><div class="min-icon">🗑️</div><div><div style="font-weight:700">Waste Management</div><div class="tiny muted">Ms. Latha Menon</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE SCREEN (index 5) -->
+      <div class="screen" id="scr-profile">
+        <div class="panel">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-weight:700;">Profile</div>
+            <div class="tiny muted">Account</div>
+          </div>
+
+          <div style="display:flex; gap:10px; align-items:center; margin-top:12px;">
+            <div style="width:68px; height:68px; border-radius:12px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:white; display:grid; place-items:center; font-weight:800;">S</div>
+            <div>
+              <div style="font-weight:800;">Srinu P.</div>
+              <div class="tiny muted">srinu@example.com</div>
+              <div class="tiny muted" style="margin-top:8px;">Member since 2024 • Hackathon winner</div>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <button class="secondary-btn" id="editProfileBtn">Edit Profile</button>
+            <button class="secondary-btn" id="signOutBtn" style="background:#fff4f4;">Sign Out</button>
+          </div>
+
+          <!-- NEW: Language Options panel -->
+          <div style="margin-top:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div style="font-weight:700;">Language Options</div>
+              <div class="tiny muted">Choose interface language</div>
+            </div>
+
+            <div class="lang-grid" id="langGrid">
+              <div class="lang-card" data-lang="en">English</div>
+              <div class="lang-card" data-lang="hi">हिन्दी (Hindi)</div>
+              <div class="lang-card" data-lang="te">తెలుగు (Telugu)</div>
+              <div class="lang-card" data-lang="ta">தமிழ் (Tamil)</div>
+              <div class="lang-card" data-lang="kn">ಕನ್ನಡ (Kannada)</div>
+              <div class="lang-card" data-lang="other">Other</div>
+            </div>
+
+            <div style="margin-top:10px;">
+              <button id="openSelectedLang" class="secondary-btn" style="width:100%;">Open Selected Language Interface</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LANGUAGE INTERFACE SCREEN (index 6 - reused for any language) -->
+      <div class="screen" id="scr-lang">
+        <div class="panel lang-interface" id="langInterfacePanel">
+          <div class="lang-banner" id="langBanner">CivicLink — Language Interface</div>
+          <div id="langInterfaceBody">
+            <div style="font-weight:700; font-size:16px;" id="langWelcome">Welcome to CivicLink — [Language] Mode</div>
+            <div class="tiny muted" id="langDesc">This is a placeholder localized interface. Use this screen to demonstrate language-specific UI in your demo.</div>
+            <div style="margin-top:12px;">
+              <div class="neo panel" id="langStats">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div>
+                    <div style="font-weight:700;">Localized Snapshot</div>
+                    <div class="tiny muted" style="margin-top:6px;">Translations are placeholders (Option B).</div>
+                  </div>
+                  <div style="font-weight:800; color:var(--accent);">CL</div>
+                </div>
+                <div style="margin-top:10px;" id="langPlaceholders"></div>
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; margin-top:12px;">
+              <button class="lang-back" id="backToProfileBtn">Back</button>
+              <button class="lang-back" id="backToHomeBtn">Home</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- end screen-strip -->
+  </div> <!-- end screen-wrapper -->
+
+  <!-- success toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <div style="width:36px; height:36px; border-radius:999px; background:var(--success); display:grid; place-items:center; color:white; font-weight:800;">✓</div>
+    <div style="font-weight:700;">Report submitted</div>
+  </div>
+
+</div> <!-- end app-frame -->
+
+<!-- bottom nav -->
+<nav class="bottom-nav" role="navigation" aria-label="Bottom navigation">
+  <div class="nav-item active" data-index="0">🏠 Home</div>
+  <div class="nav-item" data-index="1">📝 Report</div>
+  <div class="nav-item" data-index="2">🗂 My Reports</div>
+  <div class="nav-item" data-index="3">🎁 Rewards</div>
+  <div class="nav-item" data-index="4">🏛 Ministers</div>
+  <div class="nav-item" data-index="5">👤 Profile</div>
+</nav>
+
+<script>
+/* App JS: navigation, slide transitions, report features, insights rotation, voice, file, location, storage.
+   + Added: language selection and language interface screen
+*/
+(() => {
+  // State
+  const state = {
+    points: Number(localStorage.getItem('cl_points') || 120),
+    reports: JSON.parse(localStorage.getItem('cl_reports') || '[]'),
+    currentMedia: null, // { dataUrl, type, name }
+    currentRecording: null, // { blob, url, transcript }
+    currentLocation: null,
+    currentLanguage: localStorage.getItem('cl_language') || 'en',
+    selectedLangCard: null
+  };
+
+  // DOM refs
+  const splash = document.getElementById('splash');
+  const strip = document.getElementById('screenStrip');
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  const insightText = document.getElementById('insightText');
+  const pointsTop = document.getElementById('pointsTop');
+  const pointsDisplay = document.getElementById('pointsDisplay');
+  const homePoints = document.getElementById('homePoints');
+  const reportsList = document.getElementById('reportsList');
+  const noReports = document.getElementById('noReports');
+  const previewArea = document.getElementById('previewArea');
+  const fileInput = document.getElementById('fileInput');
+  const dropArea = document.getElementById('dropArea');
+
+  // splash hide
+  setTimeout(() => {
+    splash.style.transition = 'opacity .36s ease';
+    splash.style.opacity = 0;
+    setTimeout(() => { splash.style.display = 'none'; }, 420);
+  }, 1800);
+
+  // slide navigation
+  let currentIndex = Number(localStorage.getItem('cl_view_index') || 0);
+
+  function updateStripPosition() {
+    // fixed to use template literal
+    strip.style.transform = `translateX(-${currentIndex * 100}%)`;
+    navItems.forEach((n, i) => n.classList.toggle('active', i === currentIndex));
+    localStorage.setItem('cl_view_index', currentIndex);
+  }
+
+  // init navigation
+  updateStripPosition();
+
+  navItems.forEach((n,i) => {
+    n.addEventListener('click', () => {
+      currentIndex = i;
+      updateStripPosition();
+    });
+  });
+
+  // dashboard quick cards
+  document.getElementById('card-report').addEventListener('click', ()=> { currentIndex = 1; updateStripPosition(); });
+  document.getElementById('card-myreports').addEventListener('click', ()=> { currentIndex = 2; updateStripPosition(); });
+  document.getElementById('card-feed').addEventListener('click', ()=> { alert('Community Feed demo — feature placeholder'); });
+  document.getElementById('card-ministers').addEventListener('click', ()=> { currentIndex = 4; updateStripPosition(); });
+
+  // insights rotating messages
+  const insights = [
+    '🚧 Did you know? Over 30% of civic issues go unreported every year — CivicLink helps change that.',
+    '♻️ Tip: Reporting waste issues quickly reduces local pollution and improves sanitation.',
+    '🛣️ City fact: Quick reporting helps repair potholes in under 48 hours on average.',
+    '📸 Pro tip: Add a clear photo and location — reports get resolved faster.',
+    '🏆 Earn points: Submit valid reports to climb the community leaderboard.'
+  ];
+  let insightIdx = 0;
+  function rotateInsight() {
+    insightText.style.opacity = 0;
+    setTimeout(()=> {
+      insightText.textContent = insights[insightIdx];
+      insightText.style.opacity = 1;
+      insightIdx = (insightIdx + 1) % insights.length;
+    }, 300);
+  }
+  rotateInsight();
+  setInterval(rotateInsight, 4500);
+
+  // points UI
+  function updatePoints() {
+    pointsTop.textContent = state.points + ' pts';
+    if (pointsDisplay) pointsDisplay.textContent = state.points;
+    if (homePoints) homePoints.textContent = state.points;
+    localStorage.setItem('cl_points', state.points);
+  }
+  updatePoints();
+
+  // reports rendering (single function used everywhere)
+  function renderReports() {
+    reportsList.innerHTML = '';
+    if (!state.reports || state.reports.length === 0) {
+      noReports.style.display = 'block';
+      return;
+    }
+    noReports.style.display = 'none';
+    state.reports.forEach(r => {
+      const item = document.createElement('div');
+      item.className = 'report-item';
+      const left = document.createElement('div'); left.className = 'report-left';
+      left.innerHTML = '<div style="display:flex; gap:8px; align-items:center;"><div style="font-weight:700;">' + escapeHtml(r.title) + '</div><div class="tiny muted">' + escapeHtml(r.category) + '</div></div>'
+        + '<div class="tiny muted" style="margin-top:6px">' + escapeHtml(r.date) + ' • Ref #' + String(r.id).slice(-6) + '</div>'
+        + '<div class="tiny muted" style="margin-top:6px">' + escapeHtml(r.details || '') + '</div>';
+      if (r.mediaDataUrl) {
+        if (r.mediaType && r.mediaType.startsWith('video')) {
+          const v = document.createElement('video'); v.src = r.mediaDataUrl; v.controls = true; v.style.width='160px'; v.style.height='96px'; v.style.marginTop='8px'; v.style.borderRadius='8px';
+          left.appendChild(v);
+        } else {
+          const img = document.createElement('img'); img.src = r.mediaDataUrl; img.style.width='160px'; img.style.height='96px'; img.style.marginTop='8px'; img.style.borderRadius='8px'; img.style.objectFit='cover';
+          left.appendChild(img);
+        }
+      }
+      if (r.audioUrl) {
+        const audio = document.createElement('audio'); audio.controls = true; audio.src = r.audioUrl; audio.style.marginTop='8px'; audio.style.width='100%';
+        left.appendChild(audio);
+        if (r.transcript) {
+          const tr = document.createElement('div'); tr.className='tiny muted'; tr.style.marginTop='6px'; tr.textContent = 'Transcript: ' + r.transcript;
+          left.appendChild(tr);
+        }
+      }
+
+      const right = document.createElement('div'); right.className = 'report-right';
+      const pill = document.createElement('div'); pill.className = 'tiny'; pill.style.padding='6px 10px'; pill.style.borderRadius='999px';
+      pill.style.background = r.status === 'resolved' ? '#eafaf1' : (r.status === 'pending' ? '#fff7e6' : '#e8f4ff');
+      pill.style.color = '#04303f'; pill.style.fontWeight='700'; pill.textContent = (r.status || 'pending');
+      right.appendChild(pill);
+
+      const btnWrap = document.createElement('div'); btnWrap.style.display='flex'; btnWrap.style.gap='8px';
+      const resolveBtn = document.createElement('button'); resolveBtn.className='secondary-btn'; resolveBtn.textContent = r.status === 'resolved' ? 'Resolved' : 'Mark Resolved';
+      resolveBtn.disabled = (r.status === 'resolved');
+      resolveBtn.addEventListener('click', ()=> {
+        r.status = 'resolved';
+        state.points += 20; localStorage.setItem('cl_points', state.points);
+        localStorage.setItem('cl_reports', JSON.stringify(state.reports));
+        updatePoints(); renderReports();
+      });
+      const delBtn = document.createElement('button'); delBtn.className='secondary-btn'; delBtn.textContent = 'Delete';
+      delBtn.addEventListener('click', ()=> {
+        if (confirm('Delete this report?')) {
+          state.reports = state.reports.filter(x => x.id !== r.id);
+          localStorage.setItem('cl_reports', JSON.stringify(state.reports));
+          renderReports();
+        }
+      });
+      btnWrap.appendChild(resolveBtn); btnWrap.appendChild(delBtn);
+      right.appendChild(btnWrap);
+
+      item.appendChild(left); item.appendChild(right);
+      reportsList.appendChild(item);
+    });
+  }
+
+  // initial render of reports
+  try { state.reports = JSON.parse(localStorage.getItem('cl_reports') || '[]'); } catch(e){ state.reports = []; }
+  renderReports();
+
+  // file upload (drop + input)
+  dropArea.addEventListener('click', ()=> fileInput.click());
+  dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.classList.add('drag'); });
+  dropArea.addEventListener('dragleave', e => { e.preventDefault(); dropArea.classList.remove('drag'); });
+  dropArea.addEventListener('drop', e => {
+    e.preventDefault(); dropArea.classList.remove('drag');
+    const f = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) handleFile(f);
+  });
+  fileInput.addEventListener('change', e => {
+    const f = e.target.files && e.target.files[0];
+    if (f) handleFile(f);
+  });
+
+  function handleFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      state.currentMedia = { dataUrl: reader.result, type: file.type, name: file.name };
+      showPreview(state.currentMedia);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function showPreview(media) {
+    previewArea.innerHTML = ''; previewArea.style.display = 'flex';
+    if (media.type && media.type.startsWith('video')) {
+      const v = document.createElement('video'); v.src = media.dataUrl; v.controls = true; v.style.width='120px'; v.style.height='80px'; v.style.borderRadius='10px';
+      previewArea.appendChild(v);
+    } else {
+      const img = document.createElement('img'); img.src = media.dataUrl; img.style.width='120px'; img.style.height='80px'; img.style.borderRadius='10px';
+      previewArea.appendChild(img);
+    }
+  }
+
+  // Voice recorder (MediaRecorder + SpeechRecognition best-effort)
+  const recStart = document.getElementById('recStart');
+  const recStop = document.getElementById('recStop');
+  const recStatus = document.getElementById('recStatus');
+  const audioPreview = document.getElementById('audioPreview');
+  const audioPlayer = document.getElementById('audioPlayer');
+  const transcriptEl = document.getElementById('transcript');
+
+  let mediaRecorder = null;
+  let mediaStreamLocal = null;
+  let chunks = [];
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+  let recognition = null;
+
+  recStart.addEventListener('click', async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaStreamLocal = stream;
+      mediaRecorder = new MediaRecorder(stream);
+      chunks = [];
+      mediaRecorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+      mediaRecorder.onstart = () => {
+        recStart.disabled = true; recStop.disabled = false; recStatus.textContent = 'Recording...';
+        audioPreview.style.display = 'none'; transcriptEl.textContent = '';
+      };
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: chunks[0]?.type || 'audio/webm' });
+        const url = URL.createObjectURL(blob);
+        state.currentRecording = { blob, url, mime: blob.type, transcript: state.currentRecording && state.currentRecording.transcript };
+        audioPlayer.src = url; audioPreview.style.display = 'block'; recStatus.textContent = 'Saved';
+        if (mediaStreamLocal) mediaStreamLocal.getTracks().forEach(t => t.stop());
+        try { if (recognition) recognition.stop(); } catch(e){}
+      };
+      mediaRecorder.start();
+
+      // speech recognition best-effort
+      if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+        recognition.onresult = ev => {
+          try {
+            const text = Array.from(ev.results).map(r => r[0].transcript).join(' ');
+            transcriptEl.textContent = 'Transcript: ' + text;
+            state.currentRecording = state.currentRecording || {};
+            state.currentRecording.transcript = text;
+          } catch (e) { transcriptEl.textContent = 'Transcript unavailable'; }
+        };
+        recognition.onerror = () => { transcriptEl.textContent = 'Transcript unavailable'; };
+        try { recognition.start(); } catch(e) {}
+      } else {
+        transcriptEl.textContent = '(transcript not supported)';
+      }
+    } catch (err) {
+      alert('Mic access required to record: ' + (err.message || ''));
+    }
+  });
+
+  recStop.addEventListener('click', () => {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    recStart.disabled = false; recStop.disabled = true;
+  });
+
+  // location
+  const locBtn = document.getElementById('locBtn');
+  const locDisplay = document.getElementById('locDisplay');
+
+  locBtn.addEventListener('click', () => {
+    if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
+    locDisplay.textContent = 'Fetching...';
+    navigator.geolocation.getCurrentPosition(pos => {
+      state.currentLocation = { lat: pos.coords.latitude, lon: pos.coords.longitude };
+      locDisplay.textContent = `📍 ${state.currentLocation.lat.toFixed(5)}, ${state.currentLocation.lon.toFixed(5)}`;
+    }, err => {
+      locDisplay.textContent = 'Unable to fetch location';
+      alert('Location error: ' + (err.message || ''));
+    }, { enableHighAccuracy: true, timeout: 12000 });
+  });
+
+  // submit
+  const reportForm = document.getElementById('reportForm');
+  const toast = document.getElementById('toast');
+
+  reportForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = document.getElementById('rTitle').value.trim();
+    if (!title) { alert('Please add a short title.'); return; }
+    const category = document.getElementById('rCat').value;
+    const details = document.getElementById('rDetails').value.trim();
+    const rep = {
+      id: Date.now(),
+      title, category, details,
+      mediaDataUrl: state.currentMedia ? state.currentMedia.dataUrl : null,
+      mediaType: state.currentMedia ? state.currentMedia.type : null,
+      mediaName: state.currentMedia ? state.currentMedia.name : null,
+      audioUrl: state.currentRecording ? state.currentRecording.url : null,
+      transcript: state.currentRecording ? state.currentRecording.transcript : null,
+      location: state.currentLocation,
+      date: new Date().toISOString().slice(0,10),
+      status: 'pending'
+    };
+    state.reports.unshift(rep);
+    localStorage.setItem('cl_reports', JSON.stringify(state.reports));
+    // award points
+    state.points += 5;
+    localStorage.setItem('cl_points', state.points);
+    updatePoints();
+    // reset UI
+    document.getElementById('rTitle').value = '';
+    document.getElementById('rDetails').value = '';
+    previewArea.innerHTML = ''; previewArea.style.display = 'none';
+    fileInput.value = '';
+    state.currentMedia = null;
+    state.currentRecording = null;
+    audioPlayer.src = '';
+    audioPreview.style.display = 'none';
+    state.currentLocation = null; locDisplay.textContent = 'No location';
+    // show toast and navigate to My Reports
+    showToast('Report submitted');
+    renderReports();
+    currentIndex = 2; updateStripPosition();
+  });
+
+  function showToast(msg = 'Done') {
+    toast.querySelector('div[style]').textContent = '✓';
+    toast.querySelector('div:nth-child(2)').textContent = msg;
+    toast.classList.add('show');
+    setTimeout(()=> toast.classList.remove('show'), 2600);
+  }
+
+  // reset button
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    document.getElementById('rTitle').value = '';
+    document.getElementById('rDetails').value = '';
+    previewArea.innerHTML = ''; previewArea.style.display='none'; fileInput.value='';
+    state.currentMedia = null;
+    state.currentRecording = null; audioPlayer.src=''; audioPreview.style.display='none';
+    state.currentLocation = null; locDisplay.textContent = 'No location';
+    recStatus.textContent = 'No recording';
+  });
+
+  // save on unload
+  window.addEventListener('beforeunload', () => {
+    try { localStorage.setItem('cl_reports', JSON.stringify(state.reports)); localStorage.setItem('cl_points', state.points); } catch(e){}
+  });
+
+  // helpers
+  function escapeHtml(s) { if(!s && s !== 0) return ''; return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;'); }
+
+  // keyboard shortcuts for desktop testing
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '1') { currentIndex = 0; updateStripPosition(); }
+    if (e.key === '2') { currentIndex = 1; updateStripPosition(); }
+    if (e.key === '3') { currentIndex = 2; updateStripPosition(); }
+  });
+
+  // reset drag style on leave
+  document.addEventListener('dragend', () => dropArea.classList.remove('drag'));
+
+  /* ===============================
+     LANGUAGE FEATURE
+     - clicking cards in profile marks selection
+     - "Open Selected Language Interface" opens scr-lang and shows placeholder interface
+     - Back buttons return to profile or home
+     - selection saved to localStorage
+     =============================== */
+
+  const langGrid = document.getElementById('langGrid');
+  const langCards = Array.from(document.querySelectorAll('.lang-card'));
+  const openSelectedLang = document.getElementById('openSelectedLang');
+  const langBanner = document.getElementById('langBanner');
+  const langWelcome = document.getElementById('langWelcome');
+  const langDesc = document.getElementById('langDesc');
+  const langPlaceholders = document.getElementById('langPlaceholders');
+  const backToProfileBtn = document.getElementById('backToProfileBtn');
+  const backToHomeBtn = document.getElementById('backToHomeBtn');
+
+  // init selected class from stored language
+  function markSelectedLang() {
+    langCards.forEach(c => {
+      c.classList.toggle('selected', c.dataset.lang === state.currentLanguage);
+      if (c.dataset.lang === state.currentLanguage) state.selectedLangCard = c;
+    });
+  }
+  markSelectedLang();
+
+  // click to pick language
+  langCards.forEach(card => {
+    card.addEventListener('click', () => {
+      langCards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.selectedLangCard = card;
+      // don't persist until "Open Selected" clicked, but show preview label
+    });
+  });
+
+  // helper to create localized placeholders (Option B: placeholders)
+  function localizedPlaceholder(lang) {
+    // simple placeholders per language code (you can expand)
+    const languageNames = {
+      en: 'English',
+      hi: 'हिन्दी',
+      te: 'తెలుగు',
+      ta: 'தமிழ்',
+      kn: 'ಕನ್ನಡ',
+      other: 'Selected Language'
+    };
+    const name = languageNames[lang] || 'Language';
+    return {
+      banner: `CivicLink — ${name} Interface`,
+      welcome: `Welcome to CivicLink — ${name} Mode`,
+      desc: `This is a placeholder localized interface for ${name}. (Option B)`,
+      statsHtml: `<div style="display:flex; gap:8px; margin-top:10px;">
+        <div style="flex:1; text-align:center;"><div style="font-weight:700;">12,459</div><div class="tiny muted">Issues resolved</div></div>
+        <div style="flex:1; text-align:center;"><div style="font-weight:700;">24 hrs</div><div class="tiny muted">Avg response</div></div>
+      </div>`
+    };
+  }
+
+  // open selected language interface
+  openSelectedLang.addEventListener('click', () => {
+    const sel = state.selectedLangCard ? state.selectedLangCard.dataset.lang : state.currentLanguage || 'en';
+    state.currentLanguage = sel;
+    localStorage.setItem('cl_language', sel);
+    // render language interface placeholders
+    const content = localizedPlaceholder(sel);
+    langBanner.textContent = content.banner;
+    langWelcome.textContent = content.welcome;
+    langDesc.textContent = content.desc;
+    langPlaceholders.innerHTML = content.statsHtml;
+    // navigate to language screen
+    currentIndex = 6; updateStripPosition();
+    // also update the brand title to include simple language marker (non-invasive)
+    document.getElementById('brandTitle').textContent = `CivicLink · ${sel.toUpperCase()}`;
+    document.getElementById('brandTag').textContent = (sel === 'en') ? 'Your City, Your Voice' : 'Language mode active';
+  });
+
+  backToProfileBtn.addEventListener('click', () => {
+    currentIndex = 5; updateStripPosition();
+  });
+  backToHomeBtn.addEventListener('click', () => {
+    currentIndex = 0; updateStripPosition();
+  });
+
+  // also allow tapping a language card to immediately open the interface (optional quick flow)
+  langCards.forEach(card => {
+    card.addEventListener('dblclick', () => {
+      // on double click quickly open that language
+      state.selectedLangCard = card;
+      openSelectedLang.click();
+    });
+  });
+
+  // On load, if there's a stored language, reflect it in the interface header
+  (function applySavedLanguageUI() {
+    if (state.currentLanguage) {
+      document.getElementById('brandTitle').textContent = `CivicLink · ${state.currentLanguage.toUpperCase()}`;
+      document.getElementById('brandTag').textContent = (state.currentLanguage === 'en') ? 'Your City, Your Voice' : 'Language mode active';
+      markSelectedLang();
+    }
+  })();
+
+  // small UX: when profile nav item clicked, scroll to profile and highlight saved language card
+  const profileNav = Array.from(document.querySelectorAll('.nav-item')).find(n => n.dataset.index === '5');
+  if (profileNav) {
+    profileNav.addEventListener('click', () => {
+      // ensure language selection marked when arriving to profile
+      markSelectedLang();
+    });
+  }
+
+  // expose small UI actions for cards click (already set earlier)
+  // done
+
+})();
+</script>
+</body>
+</html>
