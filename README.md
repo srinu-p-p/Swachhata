@@ -1,44 +1,44 @@
 # CivicLink – Civic Issue Reporting and Resolution System
 
 ### Overview
-CivicLink is a mobile-friendly web application that allows citizens to report civic problems such as potholes, garbage issues, or broken streetlights in just a few steps.  
-Users can upload photos or videos, record a short voice message, and submit their report with automatic location tracking.  
-The main idea behind CivicLink is to connect people directly with local authorities and make issue reporting quick and transparent.
+CivicLink is a mobile-friendly web app that makes it easy for citizens to report civic problems like potholes, garbage overflow, or broken streetlights.  
+Simply upload a photo or video, record your voice if needed, and submit — with your location included automatically.  
+It’s designed to help connect citizens with local authorities and make issue tracking transparent.
 
 ---
 
 ### Features
-- **Report an Issue:** Upload images, videos, or voice messages with location details.  
-- **My Reports:** Track the status of submitted issues.  
-- **Community Feed:** View reports shared by others nearby.  
-- **Ministers Section:** Get department-wise minister information and contact details.  
-- **Splash Screen:** Simple animated welcome screen with app logo.  
-- **Modern UI:** Neumorphic design style for a clean, smooth, mobile experience.
+- **Report an Issue:** Upload a photo/video or record a short voice message, and location is auto-detected.  
+- **My Reports:** View and track your previously submitted issues.  
+- **Community Feed:** (Demo) See what others are reporting in your area.  
+- **Ministers Section:** Get department-wise ministers’ names and contact info.  
+- **Splash Screen:** A crisp animated welcome with the app logo.  
+- **Modern UI:** Neumorphic look with mobile-first design.
 
 ---
 
 ### Technologies Used
 - **Frontend:** HTML, CSS, JavaScript  
-- **APIs:** Geolocation API, MediaRecorder API  
-- **Design:** Neumorphism, responsive layout  
+- **APIs Used:** Geolocation API, MediaRecorder API  
+- **Design Style:** Neumorphism + Responsive layout
 
 ---
 
 ### How It Works
-1. Open the app on your phone or browser.  
-2. Select *Report an Issue*.  
-3. Upload a photo or video, or record your voice about the issue.  
-4. Location is detected automatically.  
-5. Submit the report for review.  
-6. Track or view updates anytime under *My Reports*.
+1. Clone the repository (see link below).  
+2. Open `civiclink.html` in any modern browser on your phone or desktop.  
+3. On the home screen, choose “Report an Issue”.  
+4. Upload a file or record your voice.  
+5. Location is captured. Submit the report.  
+6. Track the status under “My Reports”.
 
 ---
 
 ### Future Scope
-- Real-time connection with municipal dashboards.  
-- AI-based issue classification from uploaded images.  
-- Push notifications for report updates.  
-- Support for multiple languages and voice assistants.  
+- Integrate with municipal dashboards for real-time updates.  
+- Add AI to classify reported issues automatically from images/videos.  
+- Push notifications for status changes.  
+- Support for multiple languages and voice assistants.
 
 ---
 
@@ -55,11 +55,13 @@ The main idea behind CivicLink is to connect people directly with local authorit
 ### Vision
 > “A small report can make a big change.”
 
-CivicLink aims to make every citizen a part of city improvement by turning local problems into collective solutions.
+CivicLink empowers every citizen to be part of improving their city — together.
 
 ---
 
 ### How to Run
-1. Clone the repository  
-   ```bash
-   git clone https://github.com/<your-username>/CivicLink.git
+```bash
+git clone https://github.com/srinu-p-p/Swachhata.git
+
+<img width="607" height="882" alt="Screenshot 2025-10-29 144450" src="https://github.com/user-attachments/assets/22728d2a-629e-41e6-8415-52aad1d4447d" />
+
